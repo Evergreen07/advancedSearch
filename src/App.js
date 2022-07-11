@@ -1,23 +1,47 @@
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
 import './App.css';
+import axios from 'axios';
+import Display from './components/Display';
+import Navbar from './components/Navbar';
+import Search from './components/Search';
 
 function App() {
+  const [users, setUsers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage] = useState(5);
+
+  useEffect(() => {
+    async function firstDisplay() {
+      //setLoading();
+      
+      const res = await axios.get(`https://api.github.com/users`);
+      const data = res.data;
+
+      setUsers(data);
+    }
+
+    firstDisplay();
+  }, [])
+
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
+  const paginate = () => {
+    setCurrentPage(prevPage => (prevPage % 6) + 1);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar />
+
+      <div className='container'>
+        <Search setUsers={setUsers}/>
+
+        <Display users={currentUsers}/>
+
+        <button className="loader" onClick={paginate}> Show More </button>
+      </div>
     </div>
   );
 }
