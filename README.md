@@ -18,6 +18,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - Implemented features by breaking down the UI into various components.
 - Smooth, Clean and Responsive UI with the help of *CSS, CSS Grids and Flexbox, using Media Queries*.
 
+## UI Screenshot
+![Screenshot](https://i.ibb.co/s3KXrNR/smallcase-Search.png)
 
 In the project directory, you can run:
 
